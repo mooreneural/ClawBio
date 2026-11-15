@@ -162,34 +162,42 @@ Expected output: Predictions for 20 synthetic samples across heart, brain, kidne
 1. **Coefficient source**: Elastic net models trained on UK Biobank Olink Explore 3072 data (Goeminne et al. 2025)
 2. **Gen1 (chronological)**: Regularised linear regression trained to predict chronological age. Output = intercept + weighted sum of NPX values
 3. **Gen2 (mortality-based)**: Cox elastic net trained on time-to-death. Output = relative log(mortality hazard)
-4. **Gompertz conversion**: Assumes `age = (-avg_hazard + hazard) / slope - intercept` with population constants from UK Biobank
+4. **Gompertz conversion**: `age = (avg_hazard + hazard - intercept) / slope`, the inverse of the Gompertz fit `log(hazard) = intercept + slope * age`, with population constants from UK Biobank. A relative hazard of 0 (the cohort average) maps to the cohort mean age of 57.29 years. This deliberately differs from the organAging README formula, which adds 6.13 years to every age
 5. **Missing proteins**: Ignored (coefficients for absent proteins set to 0). Coverage reported per organ.
 
 **Key constants (from organAging repo):**
 - Gompertz intercept: -9.946
 - Gompertz slope: 0.0898
-- Average relative log-mortality hazard: -4.802
+- `avg_hazard`, the Gompertz log-mortality hazard at the cohort mean age of 57.29 years: -4.802
 
 ## Example Output
+
+Excerpt from `--demo --organs Heart,Brain,Kidney` (gen2 converted to years):
 
 ```markdown
 # ClawBio Proteomics Clock Report
 
-**Date**: 2026-04-10 12:00 UTC
+**Date**: 2026-11-15 20:00 UTC
 **Input**: `demo_olink_npx.csv.gz`
 **Samples**: 20
 **Organs requested**: Heart, Brain, Kidney
 **Generation**: both
+**Fold**: 1
 
 ## Prediction Summary
 
 | Organ | Generation | N | Mean | Std |
 |---|---|---:|---:|---:|
-| Heart | gen1 | 20 | 62.45 | 8.32 |
-| Brain | gen1 | 20 | 58.91 | 12.10 |
-| Heart | gen2 | 20 | 65.12 | 9.87 |
+| Heart | gen1 | 20 | 67.68 | 3.78 |
+| Brain | gen1 | 20 | 47.21 | 7.89 |
+| Kidney | gen1 | 20 | 70.62 | 8.45 |
+| Heart | gen2 | 20 | 78.43 | 8.47 |
+| Brain | gen2 | 20 | 39.63 | 9.89 |
+| Kidney | gen2 | 20 | 83.57 | 11.10 |
 
-*ClawBio is a research tool. Not a medical device.*
+## Disclaimer
+
+ClawBio is a research and educational tool. It is not a medical device and does not provide clinical diagnoses. Consult a healthcare professional before making any medical decisions.
 ```
 
 ## Output Structure
@@ -217,7 +225,7 @@ proteomics_clock_report/
 
 - **Bladder has 0 proteins**: The Bladder organ clock exists in the data but has no assigned proteins. It is excluded by default. Do not attempt to predict for it.
 - **Olink NPX is already log2-scale**: Do NOT log-transform the input data. The models expect raw NPX values.
-- **Gen2 is NOT age in years by default**: The raw output is a relative log-mortality hazard. The Gompertz conversion to years is applied by default but uses population-level UK Biobank constants that may not generalise to all cohorts.
+- **Gen2's raw output is not age in years**: The model outputs a relative log-mortality hazard. The skill converts it to years by default (`--no-convert-mortality` keeps the hazard), using population-level UK Biobank constants that may not generalise to all cohorts.
 - **Missing proteins silently degrade accuracy**: With many missing proteins, predictions become unreliable. Always check `missing_proteins.csv` and the coverage report.
 - **Non-Olink data needs rescaling**: If using SomaLogic or mass-spec data, you must standardise and rescale using the standard deviations from Table S3 of the paper. This skill currently assumes Olink NPX input.
 
