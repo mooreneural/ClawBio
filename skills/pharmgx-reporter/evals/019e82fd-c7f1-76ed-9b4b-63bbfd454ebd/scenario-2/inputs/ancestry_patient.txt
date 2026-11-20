@@ -6,6 +6,7 @@
 #
 # rsid	chromosome	position	allele1	allele2
 #
+# Source: the same 23 Corpasome SNPs (CC0) as demo_patient.txt, reformatted as an AncestryDNA file. The header above is a format template, not an export.
 rsid	chromosome	position	allele1	allele2
 rs4244285	10	96541616	A	G
 rs4986893	10	96540410	G	G
