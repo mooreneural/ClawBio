@@ -50,12 +50,12 @@ REPRO_BUNDLE_FILES = ("commands.sh", "environment.yml", "checksums.sha256")
 SWEEP_CHECKS = {"repro_files"}  # reproducibility/ holds REPRO_BUNDLE_FILES
 CONTRACT_KNOWN_GAPS_FILE = PROJECT_ROOT / "skills" / "contract_known_gaps.json"
 CONTRACT_KNOWN_GAPS = {
-    skill: set(checks) for skill, checks in json.loads(CONTRACT_KNOWN_GAPS_FILE.read_text()).items()
+    skill: set(checks) for skill, checks in json.loads(CONTRACT_KNOWN_GAPS_FILE.read_text(encoding="utf-8")).items()
 }
 
 def load_demo_skills() -> list[dict]:
     """Return skills from catalog that have demo mode."""
-    with open(CATALOG) as f:
+    with open(CATALOG, encoding="utf-8") as f:
         catalog = json.load(f)
 
     demos = []
@@ -101,8 +101,8 @@ def collect_output_genes(output_dir: Path) -> dict[str, list[str]]:
         genes: set[str] = set()
         for jf in skill_dir.rglob("*.json"):
             try:
-                data = json.loads(jf.read_text())
-            except (json.JSONDecodeError, OSError):
+                data = json.loads(jf.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError, OSError):
                 continue
 
             # Extract genes from various output formats
@@ -323,20 +323,20 @@ def main():
 
     # Write summary to file if output dir specified
     if output_dir:
-        (output_dir / "sweep_summary.md").write_text(summary)
+        (output_dir / "sweep_summary.md").write_text(summary, encoding="utf-8")
         (output_dir / "sweep_results.json").write_text(
-            json.dumps(results, indent=2)
+            json.dumps(results, indent=2), encoding="utf-8"
         )
         if benchmark:
             (output_dir / "benchmark_results.json").write_text(
-                json.dumps(benchmark, indent=2)
+                json.dumps(benchmark, indent=2), encoding="utf-8"
             )
 
     # Write to GitHub step summary if available
     summary_file = Path.home() / "GITHUB_STEP_SUMMARY"
     env_summary = __import__("os").environ.get("GITHUB_STEP_SUMMARY")
     if env_summary:
-        with open(env_summary, "a") as f:
+        with open(env_summary, "a", encoding="utf-8") as f:
             f.write(summary)
 
     failed = [r for r in results if not r["passed"]]
