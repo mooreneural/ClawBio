@@ -514,7 +514,11 @@ def detect_routing_hint_for_file(filepath: Path) -> str:
 
 
 def detect_skill_with_flock(query: str) -> tuple[str | None, str]:
-    """Use FLock API (open-source LLM) to route ambiguous queries.
+    """Use the FLock inference API to route ambiguous queries.
+
+    FlockRouter() is built without a model, so it uses FLOCK_DEFAULT_MODEL
+    (gemini-3-flash-preview), a proprietary Google Gemini model. This route
+    is therefore not open-weights.
 
     Returns (skill_name, reasoning) or (None, error_message).
     Falls back gracefully if FLock is not configured.
@@ -742,7 +746,8 @@ def main() -> None:
     parser.add_argument("--list-skills", action="store_true", help="List available skills")
     parser.add_argument("--multi", action="store_true", help="Detect and run all matching skills (not just first)")
     parser.add_argument("--provider", choices=["keyword", "flock"], default="keyword",
-                        help="Routing strategy: 'keyword' (default, rule-based) or 'flock' (open-source LLM via FLock API)")
+                        help="Routing strategy: 'keyword' (default, rule-based) or 'flock' "
+                             "(LLM via the FLock API, using the proprietary Google model gemini-3-flash-preview)")
     args = parser.parse_args()
 
     if args.list_skills:
@@ -823,7 +828,7 @@ def main() -> None:
 
     # Fallback: if keyword matching failed, try FLock LLM routing
     if not skill and args.provider == "flock" and args.input:
-        print("Keyword matching failed. Trying FLock LLM routing (open-source model)...")
+        print("Keyword matching failed. Trying FLock LLM routing (gemini-3-flash-preview, a proprietary model)...")
         try:
             skill, reasoning = detect_skill_with_flock(args.input)
             method = "flock-llm"

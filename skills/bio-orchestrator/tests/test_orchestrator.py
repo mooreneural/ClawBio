@@ -481,3 +481,48 @@ def test_a_bare_biobank_name_without_a_phewas_is_not_snp_phewas(query):
 def test_plain_phewas_still_routes_to_gwas_lookup():
     skill, _hint = detect_skill_with_hint_from_query("phewas for rs12740374")
     assert skill == "gwas-lookup"
+
+
+# ---------------------------------------------------------------------------
+# The FLock route is not open-source. detect_skill_with_flock builds
+# FlockRouter() without a model, so the route always uses FLOCK_DEFAULT_MODEL,
+# a proprietary Google Gemini model. The CLI must name that model and must not
+# call the route open-source.
+# ---------------------------------------------------------------------------
+
+def _calls_it_open_source(text: str) -> bool:
+    lowered = text.lower()
+    return "open-source" in lowered or "open source" in lowered
+
+
+def test_help_names_the_flock_model_and_does_not_call_it_open_source(monkeypatch, capsys):
+    import orchestrator
+    from clawbio.providers.flock import FLOCK_DEFAULT_MODEL
+
+    monkeypatch.setenv("COLUMNS", "1000")  # no wrapping, so hyphenated words stay whole
+    monkeypatch.setattr(sys, "argv", ["orchestrator.py", "--help"])
+    with pytest.raises(SystemExit) as exit_info:
+        orchestrator.main()
+    assert exit_info.value.code == 0
+    help_text = capsys.readouterr().out
+    assert not _calls_it_open_source(help_text)
+    assert FLOCK_DEFAULT_MODEL in help_text
+
+
+def test_flock_fallback_names_the_model_and_does_not_call_it_open_source(tmp_path, monkeypatch, capsys):
+    import orchestrator
+    from clawbio.providers.flock import FLOCK_DEFAULT_MODEL
+
+    # Stub the FLock call so no request can leave the machine.
+    monkeypatch.setattr(orchestrator, "detect_skill_with_flock", lambda query: (None, "stub"))
+    # Run in an empty folder, so the query can never be read as a file path.
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "argv", [
+        "orchestrator.py", "--provider", "flock", "--input", "zzqx qqzx", "--output", str(tmp_path),
+    ])
+    with pytest.raises(SystemExit):
+        orchestrator.main()
+    announced = [line for line in capsys.readouterr().out.splitlines() if "Trying FLock" in line]
+    assert len(announced) == 1
+    assert not _calls_it_open_source(announced[0])
+    assert FLOCK_DEFAULT_MODEL in announced[0]

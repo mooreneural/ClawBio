@@ -1,8 +1,12 @@
 """FLock API provider for ClawBio intelligent routing.
 
-FLock.io provides open-source model inference through an OpenAI-compatible API.
+FLock.io provides model inference through an OpenAI-compatible API.
 This module uses FLock as the LLM backend for the Bio Orchestrator's
 intelligent routing when keyword matching fails.
+
+The default model, FLOCK_DEFAULT_MODEL, is gemini-3-flash-preview, a
+proprietary Google Gemini model. Routing through FLock is open-weights only
+when FlockRouter is given an open-weights model with ``model=``.
 
 Usage:
     from clawbio.providers.flock import FlockRouter
@@ -54,7 +58,11 @@ If no skill matches, respond: {{"skill": null, "confidence": 0.0, "reasoning": "
 
 
 class FlockRouter:
-    """Routes bioinformatics queries to skills using FLock open-source models."""
+    """Routes bioinformatics queries to skills using a model served by FLock.
+
+    The model is FLOCK_DEFAULT_MODEL, a proprietary Google Gemini model,
+    unless ``model`` names another one.
+    """
 
     def __init__(
         self,
