@@ -1,0 +1,481 @@
+{
+  "skills": [
+    {
+      "name": "arrayexpress-fetch",
+      "cli_alias": "arrayexpress-fetch",
+      "description": "Query metadata and download data from ArrayExpress, EMBL-EBI's functional genomics collection, now hosted inside BioStudies. Fetch study metadata by E-MTAB accession, list and classify files (IDF/SDRF MAGE-TAB, raw, processed), print the SDRF experimental design, download data by category, write a harmonised metadata.tsv, and build an nf-core/rnaseq or nf-core/scrnaseq samplesheet.csv from the SDRF.",
+      "version": "0.1.0",
+      "status": "planned",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run arrayexpress-fetch --demo",
+      "dependencies": [
+        "python>=3.10"
+      ],
+      "tags": [
+        "arrayexpress",
+        "embl-ebi",
+        "functional-genomics",
+        "mage-tab",
+        "data-retrieval",
+        "public-archives"
+      ],
+      "trigger_keywords": [
+        "ArrayExpress",
+        "E-MTAB",
+        "MAGE-TAB",
+        "SDRF",
+        "IDF",
+        "functional genomics experiment"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "claw-methylation-cycle",
+      "cli_alias": null,
+      "description": "Methylation cycle analysis — enzymatic activity profiles, Net Methylation Capacity, BH4 axis estimates, compound heterozygosity detection from SNP genotype data.",
+      "version": "0.1.3",
+      "status": "planned",
+      "maturity_tier": "tested",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": false,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python skills/claw-methylation-cycle/methylation_cycle.py --demo",
+      "dependencies": [],
+      "tags": [
+        "genomics",
+        "methylation",
+        "MTHFR",
+        "neurodevelopment"
+      ],
+      "trigger_keywords": [
+        "methylation",
+        "MTHFR",
+        "folate cycle",
+        "BH4",
+        "homocysteine",
+        "methylation cycle",
+        "metilación",
+        "neurotransmitter synthesis"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "de-summary",
+      "cli_alias": null,
+      "description": "Summarise pre-computed differential expression results with ranked gene lists, biological themes, and publication-ready interpretation.",
+      "version": "0.1.0",
+      "status": "planned",
+      "maturity_tier": "spec-only",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": false,
+        "has_tests": false,
+        "has_demo": false,
+        "cli_registered": false,
+        "benchmark_validated": false
+      },
+      "has_script": false,
+      "has_tests": false,
+      "has_demo": false,
+      "demo_command": null,
+      "dependencies": [],
+      "tags": [
+        "transcriptomics",
+        "differential-expression",
+        "summary",
+        "interpretation",
+        "bulk-rna-seq"
+      ],
+      "trigger_keywords": [
+        "DE summary",
+        "differential expression summary",
+        "top DE genes",
+        "summarise DE results",
+        "interpret DE",
+        "volcano summary",
+        "gene expression summary"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "dnasp",
+      "cli_alias": "dnasp",
+      "description": "Population genetics of pre-aligned DNA sequences or multi-sample VCFs using selected DnaSP 6 methods. Use for diversity, neutrality statistics, linkage disequilibrium, InDel polymorphism, divergence, MK, Ka/Ks and codon usage; not alignment, phasing or clinical interpretation.",
+      "version": "0.6.1",
+      "status": "planned",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run dnasp --demo",
+      "dependencies": [
+        "python>=3.10",
+        "matplotlib>=3.7",
+        "numpy>=1.24",
+        "pandas>=2.0",
+        "opentelemetry-sdk>=1.20"
+      ],
+      "tags": [
+        "population-genetics",
+        "molecular-evolution",
+        "DNA-polymorphism",
+        "neutrality-tests",
+        "linkage-disequilibrium",
+        "recombination",
+        "divergence",
+        "sequence-analysis"
+      ],
+      "trigger_keywords": [
+        "nucleotide diversity",
+        "Tajima's D",
+        "DNA polymorphism",
+        "population genetics sequences",
+        "haplotype diversity",
+        "DnaSP",
+        "segregating sites",
+        "Fu and Li test",
+        "neutrality test alignment",
+        "Watterson theta",
+        "linkage disequilibrium",
+        "recombination events",
+        "mismatch distribution",
+        "population expansion",
+        "InDel polymorphism",
+        "divergence between populations",
+        "Dxy Da net divergence",
+        "fixed differences populations",
+        "Ramos-Onsins Rozas R2",
+        "Fu Li D F outgroup",
+        "outgroup polarised mutations",
+        "HKA test neutrality",
+        "Hudson Kreitman Aguade",
+        "two-locus neutrality",
+        "polymorphism divergence ratio",
+        "McDonald-Kreitman test",
+        "MK test",
+        "adaptive evolution test",
+        "alpha McDonald-Kreitman",
+        "neutrality index NI",
+        "direction of selection DoS",
+        "Ka/Ks",
+        "dN/dS",
+        "omega synonymous nonsynonymous",
+        "synonymous substitution rate",
+        "nonsynonymous substitution rate",
+        "coding sequence neutrality",
+        "Nei-Gojobori method",
+        "Fu's Fs test",
+        "Fu 1997 Fs",
+        "site frequency spectrum",
+        "SFS folded unfolded",
+        "allele frequency spectrum",
+        "singleton excess",
+        "minor allele frequency distribution",
+        "VCF population genetics",
+        "multi-sample VCF nucleotide diversity",
+        "VCF to haplotypes",
+        "population genomics from VCF"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "eqtl-catalogue-region-fetch",
+      "cli_alias": "eqtl-region",
+      "description": "Fetch a region of cis-eQTL summary statistics from EBI eQTL Catalogue v7+\nvia tabix-on-FTP. Use when an agent needs eQTL beta / SE / p-value for\nevery variant in a window around a gene's TSS for one specific dataset\n(study × tissue × quantification method). Input: dataset_id, chromosome,\nstart, end, optional molecular_trait_id. Output: harmonised TSV slice.\n",
+      "version": "0.2.0",
+      "status": "planned",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run eqtl-region --demo",
+      "dependencies": [
+        "python>=3.10",
+        "pysam>=0.22",
+        "pandas>=2.0"
+      ],
+      "tags": [
+        "eqtl",
+        "eqtl-catalogue",
+        "region-fetch",
+        "tabix",
+        "summary-statistics",
+        "cis-eqtl"
+      ],
+      "trigger_keywords": [
+        "eqtl region fetch",
+        "eqtl catalogue tabix",
+        "eqtl sumstats slice",
+        "cis-eqtl region pull",
+        "GTEx eqtl region"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "hla-typing",
+      "cli_alias": null,
+      "description": "HLA allele typing from WGS/WES VCF data",
+      "version": "0.1.0",
+      "status": "planned",
+      "maturity_tier": "tested",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": false,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python skills/hla-typing/hla_typing.py --demo",
+      "dependencies": [
+        "python>=3.11",
+        "pandas>=2.0"
+      ],
+      "tags": [
+        "allele",
+        "typing",
+        "from"
+      ],
+      "trigger_keywords": [
+        "allele",
+        "typing",
+        "from"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "nutrigx",
+      "cli_alias": "nutrigx",
+      "description": "Personalised nutrition report from consumer genetic data (23andMe, AncestryDNA, VCF) — interrogates nutritionally-relevant SNPs and generates actionable dietary guidance, all computed locally.",
+      "version": "0.2.0",
+      "status": "mvp",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run nutrigx --demo",
+      "dependencies": [],
+      "tags": [
+        "nutrigenomics",
+        "nutrition",
+        "diet",
+        "genetics",
+        "23andme",
+        "ancestrydna",
+        "vcf"
+      ],
+      "trigger_keywords": [
+        "personalised nutrition",
+        "nutrigenomics",
+        "diet genetics",
+        "MTHFR",
+        "APOE",
+        "FTO",
+        "vitamin D",
+        "caffeine metabolism",
+        "lactose",
+        "omega-3",
+        "folate",
+        "what should I eat based on my DNA",
+        "vitamin absorption genetics",
+        "gluten"
+      ],
+      "chaining_partners": [
+        "profile-report",
+        "pharmgx-reporter"
+      ],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "pharmgx-reporter",
+      "cli_alias": "pharmgx",
+      "description": "Pharmacogenomic report from DTC genetic data (23andMe/AncestryDNA) — 12 genes, 31 SNPs, 51 drugs",
+      "version": "0.1.0",
+      "status": "mvp",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run pharmgx --demo",
+      "dependencies": [],
+      "tags": [
+        "pharmacogenomics",
+        "CPIC",
+        "DTC-genetics",
+        "precision-medicine"
+      ],
+      "trigger_keywords": [
+        "pharmacogenomics",
+        "drug interactions",
+        "23andMe medications",
+        "CYP2D6",
+        "CYP2C19",
+        "warfarin",
+        "CPIC"
+      ],
+      "chaining_partners": [
+        "drug-photo",
+        "profile-report",
+        "clinpgx"
+      ],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "pubmed-summariser",
+      "cli_alias": "pubmed-summariser",
+      "description": "Search PubMed, preserve complete abstracts and sections, and produce research briefings with abstract openings or optional OpenAI/Ollama summaries.",
+      "version": "0.2.0",
+      "status": "planned",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run pubmed-summariser --demo",
+      "dependencies": [],
+      "tags": [],
+      "trigger_keywords": [
+        "pubmed",
+        "summarise papers",
+        "research briefing",
+        "papers about",
+        "recent studies",
+        "literature search pubmed",
+        "gene papers",
+        "disease papers"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    },
+    {
+      "name": "ukb-ppp-region-fetch",
+      "cli_alias": "ukb-ppp-region",
+      "description": "Fetch a regional slice of plasma pQTL summary statistics from the UK\nBiobank Pharma Proteomics Project (UKB-PPP; Sun 2023 Nature) for a\nspecific (protein, ancestry) measurement. Use when an agent needs\nper-variant beta / SE / p-value around a coloc-lead variant for\ndownstream colocalisation, Mendelian randomisation, or regional\nplotting against a pQTL exposure. The canonical use case is the\ncis-window around the protein's coding gene TSS, but UKB-PPP releases\nfull-genome summary stats per protein so any GRCh38 window (including\ntrans loci) is supported when the user supplies an explicit\n(chromosome, start_bp, end_bp). Input: protein_label (HGNC or\nUniProt), ancestry, chromosome, start_bp, end_bp. Output: harmonised\nTSV slice + manifest + human-readable report.\n",
+      "version": "0.1.2",
+      "status": "planned",
+      "maturity_tier": "cli-registered",
+      "maturity_evidence": {
+        "has_skill_md": true,
+        "has_script": true,
+        "has_tests": true,
+        "has_demo": true,
+        "cli_registered": true,
+        "benchmark_validated": false
+      },
+      "has_script": true,
+      "has_tests": true,
+      "has_demo": true,
+      "demo_command": "python clawbio.py run ukb-ppp-region --demo",
+      "dependencies": [
+        "python>=3.10",
+        "synapseclient>=3.0",
+        "requests>=2.28"
+      ],
+      "tags": [
+        "pqtl",
+        "ukb-ppp",
+        "region-fetch",
+        "regenie",
+        "summary-statistics",
+        "proteomics",
+        "olink"
+      ],
+      "trigger_keywords": [
+        "ukb-ppp pqtl region fetch",
+        "pqtl regional summary stats",
+        "sun 2023 ukbppp",
+        "protein qtl summary stats",
+        "plasma pqtl regional fetch"
+      ],
+      "chaining_partners": [],
+      "license": "MIT",
+      "model_license": "",
+      "data_license": ""
+    }
+  ]
+}
