@@ -104,7 +104,7 @@ ClawBio v0.5.0 introduces the platform's first systematic validation infrastruct
 | Component | Description |
 |-----------|-------------|
 | **AD Ground Truth** | 34 Alzheimer's disease genes across 3 evidence tiers (Mendelian, GWAS-replicated, novel), 20 negative controls, 10 lead variants |
-| **Mock API Server** | Deterministic endpoints for Ensembl, GWAS Catalog, ClinPGx. Offline CI without rate limits |
+| **Mock API Server** | Deterministic endpoints for Ensembl, GWAS Catalog, ClinPGx that tests can start with `MockAPIServer`. No skill calls them yet, so skill demos and the nightly sweep still call the live APIs |
 | **Benchmark Scorer** | Gene recovery rate, FDR, precision, recall, F1, tier-weighted composite score |
 | **Swappable Fine-Mapping** | ABF vs SuSiE head-to-head on same data. Method registry pattern for adding FINEMAP, PolyFun |
 | **Nightly Sweep** | Runs every skill in demo mode, scores outputs against ground truth |
@@ -116,7 +116,7 @@ python tests/benchmark/finemapping_benchmark.py --output /tmp/fm_bench
 # Score a gene list against AD ground truth
 python tests/benchmark/benchmark_scorer.py --genes "APP,BIN1,CLU,TREM2,GAPDH"
 
-# Start mock API server for offline testing
+# Start mock API server (no skill calls it yet)
 python tests/benchmark/mock_api_server.py &
 ```
 

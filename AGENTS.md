@@ -330,7 +330,7 @@ Hypothesis's default 200 ms deadline otherwise makes them flaky in CI.
 Benchmark and validation tools for developing or testing skills:
 
 - `tests/benchmark/ad_ground_truth.json` — curated AD ground-truth gene and variant benchmark set
-- `tests/benchmark/mock_api_server.py` — deterministic mock APIs for offline CI and local testing
+- `tests/benchmark/mock_api_server.py` — deterministic mock APIs that tests can start with `MockAPIServer`; no skill calls them yet, so skill demos and the nightly sweep still call the live APIs
 - `tests/benchmark/benchmark_scorer.py` — CLI and Python API for scoring outputs against ground truth
 - `tests/benchmark/finemapping_benchmark.py` — ABF vs SuSiE benchmark runner for fine-mapping
 

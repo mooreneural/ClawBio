@@ -3,18 +3,15 @@
 mock_api_server.py — Deterministic mock API server for offline CI testing.
 
 Simulates ClinVar, Ensembl REST, GWAS Catalog, and ClinPGx endpoints with
-known test data. Skills hit this instead of live APIs during CI/nightly sweep.
+known test data. Tests can start it with MockAPIServer, as test_mock_api.py
+does. No skill calls these endpoints yet, so skill demos and the nightly
+sweep still call the live APIs.
 
 Inspired by StrongDM's simulated Slack/Jira/Okta pattern (Willison, 2026).
 
 Usage:
     # Start server (background)
     python tests/benchmark/mock_api_server.py &
-
-    # Run skills against it
-    CLAWBIO_API_BASE_ENSEMBL=http://localhost:8089/ensembl \
-    CLAWBIO_API_BASE_CLINPGX=http://localhost:8089/clinpgx \
-    python scripts/nightly_demo_sweep.py
 
     # Stop server
     kill %1

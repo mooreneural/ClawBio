@@ -41,7 +41,7 @@
 ## Validation & Benchmarking
 
 - [tests/benchmark/ad_ground_truth.json](tests/benchmark/ad_ground_truth.json): AD Ground Truth benchmark set
-- [tests/benchmark/mock_api_server.py](tests/benchmark/mock_api_server.py): Deterministic mock endpoints for offline CI and testing
+- [tests/benchmark/mock_api_server.py](tests/benchmark/mock_api_server.py): Deterministic mock endpoints that tests can start with `MockAPIServer`; no skill calls them yet, so skill demos and the nightly sweep still call the live APIs
 - [tests/benchmark/benchmark_scorer.py](tests/benchmark/benchmark_scorer.py): Benchmark scoring CLI / Python API
 - [tests/benchmark/finemapping_benchmark.py](tests/benchmark/finemapping_benchmark.py): ABF vs SuSiE benchmark harness
 - [scripts/nightly_demo_sweep.py](scripts/nightly_demo_sweep.py): Nightly sweep with benchmark integration

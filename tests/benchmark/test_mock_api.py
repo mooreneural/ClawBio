@@ -3,18 +3,23 @@
 from __future__ import annotations
 
 import json
+import re
+import subprocess
 import urllib.request
 from pathlib import Path
 
 import pytest
+from hypothesis import example, given, strategies as st
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import mock_api_server
 from mock_api_server import MockAPIServer, _ensembl_variation, _ensembl_vep, _gwas_catalog_associations, _clinpgx_gene
 from benchmark_scorer import BenchmarkScorer
 
 GROUND_TRUTH = Path(__file__).parent / "ad_ground_truth.json"
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 # ── Ground Truth Integrity ──────────────────────────────────────────────────
@@ -168,6 +173,74 @@ class TestMockAPIServer:
             assert False, "Should have raised"
         except urllib.error.HTTPError as e:
             assert e.code == 404
+
+
+# ── Module docstring ────────────────────────────────────────────────────────
+
+# A shell word that sets a variable for the command after it: `NAME=value \`. Not tied to a
+# line start: __doc__ joins a backslash-continued line onto the one before it.
+_ENV_ASSIGNMENT = re.compile(r"(?<!\S)([A-Z_][A-Z0-9_]*)=\S")
+
+
+def documented_env_vars(doc: str) -> set[str]:
+    """Names of the environment variables a usage text tells the reader to set."""
+    return set(_ENV_ASSIGNMENT.findall(doc))
+
+
+def _python_files_naming(name: str) -> list[str]:
+    """Tracked .py files, other than the mock server and this test, that contain `name`."""
+    proc = subprocess.run(
+        ["git", "grep", "-l", "-w", "-F", "-e", name, "--", "*.py",
+         ":(exclude)tests/benchmark/mock_api_server.py",
+         ":(exclude)tests/benchmark/test_mock_api.py"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    assert proc.returncode in (0, 1), proc.stderr  # git grep exits 1 when nothing matches
+    return proc.stdout.split()
+
+
+def test_docstring_sets_no_env_var_that_nothing_reads():
+    """Following the docstring's usage must change something: every variable it sets is read by code."""
+    unread = sorted(n for n in documented_env_vars(mock_api_server.__doc__) if not _python_files_naming(n))
+    assert not unread, (
+        f"mock_api_server.py's docstring tells readers to set {unread}, but no other Python "
+        "file names them, so the run it describes still calls the live APIs. "
+        "Make the code read them, or drop them from the docstring."
+    )
+
+
+_ENV_NAMES = st.from_regex(r"[A-Z_][A-Z0-9_]{0,24}", fullmatch=True)
+_SHELL_WORDS = st.from_regex(r"[!-~]{1,24}", fullmatch=True)  # printable ASCII, no whitespace
+_LINES_THAT_SET_NOTHING = st.sampled_from([
+    "",
+    "Usage:",
+    "    # Start server (background)",
+    "    python tests/benchmark/mock_api_server.py &",
+    "    kill %1",
+    "    with MockAPIServer(port=8089) as server:",
+])
+
+
+@st.composite
+def _usage_texts(draw) -> tuple[str, set[str]]:
+    """Usage text as written in the source, with each assignment continued by `\\`, and the names it sets."""
+    names = draw(st.lists(_ENV_NAMES, unique=True, max_size=4))
+    lines = [
+        draw(st.sampled_from(["", "    ", "\t", "    export "])) + f"{name}={draw(_SHELL_WORDS)} \\"
+        for name in names
+    ]
+    lines += draw(st.lists(_LINES_THAT_SET_NOTHING, max_size=6))
+    return "\n".join(draw(st.permutations(lines))), set(names)
+
+
+@example(usage=("A=0 \\\nB=0 \\", {"A", "B"}))
+@given(usage=_usage_texts())
+def test_documented_env_vars_finds_every_assignment_in_any_order(usage):
+    source, names = usage
+    # A docstring drops each backslash-newline, so __doc__ has the continued lines joined.
+    docstring = source.replace("\\\n", "")
+    assert documented_env_vars(source) == names
+    assert documented_env_vars(docstring) == names
 
 
 # ── Benchmark Scorer ────────────────────────────────────────────────────────
