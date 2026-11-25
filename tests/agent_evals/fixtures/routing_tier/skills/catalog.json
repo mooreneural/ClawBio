@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {"name": "claw-metagenomics", "cli_alias": "metagenomics", "description": "Synthetic entry: profile shotgun metagenomes for taxa and resistance genes.", "trigger_keywords": ["metagenome", "microbiome", "resistance genes"], "has_script": true, "demo_command": "python clawbio.py run metagenomics --demo"},
+    {"name": "clinpgx", "cli_alias": "clinpgx", "description": "Synthetic entry: look up gene-drug annotations for named genes or drugs.", "trigger_keywords": ["gene-drug lookup", "drug label", "dosing guideline"], "has_script": true, "demo_command": "python clawbio.py run clinpgx --demo"},
+    {"name": "dnasp", "cli_alias": "dnasp", "description": "Synthetic entry: population-genetics statistics from aligned sequences.", "trigger_keywords": ["Tajima's D", "nucleotide diversity", "neutrality test"], "has_script": true, "demo_command": "python clawbio.py run dnasp --demo"},
+    {"name": "equity-scorer", "cli_alias": "equity", "description": "Synthetic entry: score population representation and diversity in a cohort.", "trigger_keywords": ["equity", "representation", "FST"], "has_script": true, "demo_command": "python clawbio.py run equity --demo"},
+    {"name": "genome-compare", "cli_alias": "compare", "description": "Synthetic entry: compare two personal genomes for shared alleles.", "trigger_keywords": ["compare genomes", "IBS", "shared alleles"], "has_script": true, "demo_command": "python clawbio.py run compare --demo"},
+    {"name": "nfcore-sarek-wrapper", "cli_alias": "sarek-pipeline", "description": "Synthetic entry: plan and run a germline or somatic variant-calling pipeline.", "trigger_keywords": ["variant calling pipeline", "somatic calling", "germline calling"], "has_script": true, "demo_command": "python clawbio.py run sarek-pipeline --demo"},
+    {"name": "nutrigx", "cli_alias": "nutrigx", "description": "Synthetic entry: diet-related genotype report.", "trigger_keywords": ["nutrigenomics", "caffeine", "lactose"], "has_script": true, "demo_command": "python clawbio.py run nutrigx --demo"},
+    {"name": "pharmgx-reporter", "cli_alias": "pharmgx", "description": "Synthetic entry: drug-response report from a consumer genotype file.", "trigger_keywords": ["pharmacogenomics", "drug response", "consumer genotype file"], "has_script": true, "demo_command": "python clawbio.py run pharmgx --demo"},
+    {"name": "seqtk-downsample", "cli_alias": "seqtk-downsample", "description": "Synthetic entry: downsample FASTQ reads with a fixed seed.", "trigger_keywords": ["downsample", "subsample reads", "FASTQ"], "has_script": true, "demo_command": "python clawbio.py run seqtk-downsample --demo"},
+    {"name": "vcf-annotator", "cli_alias": null, "description": "Synthetic entry: annotate VCF variants with consequences.", "trigger_keywords": ["annotate variants", "consequence", "VCF annotation"], "has_script": true, "demo_command": "python skills/vcf-annotator/vcf_annotator.py --demo"}
+  ]
+}

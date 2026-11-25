@@ -1,0 +1,16 @@
+{
+  "_note": "Synthetic allowlists shaped like clawbio.cli.SKILLS. The flag sets are made up for the tests.",
+  "nfcore_aliases": ["sarek-pipeline"],
+  "skills": {
+    "clinpgx": {"allowed_extra_flags": ["--gene", "--drug"]},
+    "compare": {"allowed_extra_flags": ["--reference"]},
+    "dnasp": {"allowed_extra_flags": ["--analysis", "--window", "--step"]},
+    "equity": {"allowed_extra_flags": ["--weights", "--pop-map"]},
+    "metagenomics": {"allowed_extra_flags": []},
+    "nutrigx": {"allowed_extra_flags": []},
+    "pharmgx": {"allowed_extra_flags": []},
+    "sarek-pipeline": {"allowed_extra_flags": ["--tools", "--skip-tools", "--genome"],
+                       "allowed_extra_flags_without_values": ["--check"]},
+    "seqtk-downsample": {"allowed_extra_flags": ["--input2", "--n-reads", "--seed"]}
+  }
+}
