@@ -261,6 +261,10 @@ def test_command_rules_join_catalog_aliases_and_allowlists():
     ("vcf-annotator", "uv run --extra vep python skills/vcf-annotator/vcf_annotator.py --demo"),
     ("vcf-annotator", "Rscript skills/vcf-annotator/annotate.R --demo"),  # one catalog demo is an R script
     ("vcf-annotator", "python skills/vcf-annotator/scripts/annotate.py --demo"),  # one is in a subfolder
+    # A request with no file gets placeholder paths; they are not redirects.
+    ("equity-scorer", "python clawbio.py run equity --input <file> --output <dir>"),
+    ("equity-scorer", "python clawbio.py run equity --input <cohort>.vcf --output <output_dir>"),
+    ("vcf-annotator", "python skills/vcf-annotator/vcf_annotator.py --input <my.vcf> --output <dir>"),
     (None, None),
 ])
 def test_valid_commands(skill, command):
@@ -279,6 +283,9 @@ def test_valid_commands(skill, command):
     ("equity-scorer", "python clawbio.py run equity --demo | tail", "one command"),
     ("equity-scorer", "python clawbio.py run equity --demo; ls", "one command"),
     ("equity-scorer", "python clawbio.py run equity --demo > out.txt", "one command"),
+    ("equity-scorer", "python clawbio.py run equity --demo >out.txt", "one command"),
+    ("equity-scorer", "python clawbio.py run equity --input < in.vcf --demo", "one command"),
+    ("equity-scorer", "python clawbio.py run equity --input <file> --demo && ls", "one command"),
     ("equity-scorer", "python clawbio.py list", "not a skill run"),
     ("equity-scorer", "python clawbio.py run", "not a skill run"),
     ("equity-scorer", "bash skills/equity-scorer/run.sh", "not a ClawBio command"),

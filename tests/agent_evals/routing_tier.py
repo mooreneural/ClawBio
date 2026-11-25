@@ -308,6 +308,9 @@ _INTERPRETER = {"Rscript": "R"}  # besides python: claw-amplicon-qc's demo is an
 _SCRIPT = re.compile(r"skills/([^/]+)/(?:(?!\.\.?/)[^/]+/)*(?!\.\.?$)[^/]+\.(py|R)")
 
 
+_PLACEHOLDER = re.compile(r"<[A-Za-z][A-Za-z0-9_./-]*>")
+
+
 def _snake(flag: str) -> str:
     return "--" + flag[2:].replace("_", "-") if flag.startswith("--") else flag
 
@@ -318,6 +321,9 @@ def _check(skill, command, rules: Mapping) -> tuple[str | None, bool]:
         return (None if command is None or not command.strip() else "a command without a skill"), False
     if command is None or not command.strip():
         return "no command", False
+    # A placeholder path such as <file> or <output_dir> is what a model writes when
+    # the request names no file; it is a path, not a pair of redirects.
+    command = _PLACEHOLDER.sub("PLACEHOLDER", command)
     try:
         lexer = shlex.shlex(command, posix=True, punctuation_chars=True)
         lexer.whitespace_split = True
