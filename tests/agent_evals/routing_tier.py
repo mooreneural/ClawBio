@@ -203,7 +203,6 @@ def build_prompt(index_text: str, rules_text: str, request: str) -> tuple[str, s
 
 # --- parse_answer --------------------------------------------------------------
 
-_FENCED = re.compile(r"```[A-Za-z0-9_-]*[ \t]*\n(.*?)\n?[ \t]*```", re.DOTALL)
 _DECODER = json.JSONDecoder()
 
 
@@ -225,10 +224,11 @@ def _objects(text: str) -> list[dict]:
 def parse_answer(text) -> dict:
     """{"skill", "command"} from a reply, or {"malformed": reason}.
 
-    Strips a leading <think>...</think> block and a markdown fence, then reads the one
-    JSON object in what is left. The skill must be a skill name or null, written as
-    plain text in the reply (no JSON escapes), so a skill is never read from anywhere
-    but the reply's own words.
+    Strips a leading <think>...</think> block, then reads the one JSON object in what
+    is left, inside a markdown fence or not; a second object anywhere makes the reply
+    malformed. The skill must be a skill name or null, and the name must also appear
+    verbatim in the reply after any <think> block, so a name found only in the
+    reasoning, or written only as a JSON escape, is malformed.
     """
     if not isinstance(text, str) or not text.strip():
         return {"malformed": "empty reply"}
@@ -240,9 +240,6 @@ def parse_answer(text) -> dict:
         body = body[end + len("</think>"):].strip()
         if not body:
             return {"malformed": "no JSON object after the <think> block"}
-    fences = _FENCED.findall(body)
-    if len(fences) == 1:
-        body = fences[0]
     objects = _objects(body)
     if not objects:
         return {"malformed": "no JSON object in the reply"}
@@ -256,7 +253,7 @@ def parse_answer(text) -> dict:
         if not (isinstance(skill, str) and NAME.fullmatch(skill)):
             return {"malformed": "skill must be a skill name or null"}
         if skill not in body:  # body: the reply without its <think> block
-            return {"malformed": "skill must be written as plain text, not with JSON escapes"}
+            return {"malformed": "skill name must appear verbatim in the reply after any <think> block"}
     if command is not None and not isinstance(command, str):
         return {"malformed": "command must be a string or null"}
     return {"skill": skill, "command": command}

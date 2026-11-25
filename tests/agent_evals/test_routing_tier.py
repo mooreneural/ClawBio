@@ -214,6 +214,8 @@ def test_parse_answer_reads_the_json_object(text, expected):
     ("The skill is `nutrigx`.", "no JSON object"),
     ('{"skill": "nutrigx", "command": null', "no JSON object"),
     ('{"skill": "nutrigx"} {"skill": "dnasp"}', "more than one"),
+    # A fenced answer followed by a hedged second answer is still two answers.
+    ('```json\n{"skill": "dnasp", "command": null}\n```\nOr maybe {"skill": "nutrigx", "command": null}', "more than one"),
     ('["nutrigx"]', "no JSON object"),
     ('{"command": "python clawbio.py run nutrigx --demo"}', "skill"),
     ('{"skill": 3, "command": null}', "skill"),
